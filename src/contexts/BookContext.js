@@ -7,43 +7,65 @@ export const BookContext = createContext();
 const BookContextProvider = (props) => {
   const createUser = () => {
     return {
-      userName: Faker.internet.userName(),
+      author: Faker.internet.userName(),
       image: Faker.internet.avatar(),
-      text: Faker.lorem.paragraph(),
+      title: Faker.lorem.paragraph(),
       id: uuidv4().slice(0, 5),
     };
   };
 
-  const createUsers = (numUsers = 2) => {
+  const createUsers = (numUsers = 1) => {
     return Array.from({ length: numUsers }, createUser);
   };
 
-  let fakeUsers = createUsers(7);
+  let fakeUsers = createUsers(2);
 
   const [books, setBooks] = useState([]);
+  const [editItem, setEditItem] = useState(null);
 
   useEffect(() => {
     setBooks(fakeUsers);
   }, []);
 
-  const addBook = (userName, text) => {
+  //add book
+  const addBook = (author, title) => {
     setBooks([
       ...books,
       {
-        userName,
-        text,
+        author,
+        title,
         image: Faker.internet.avatar(),
         id: uuidv4().slice(0, 5),
       },
     ]);
   };
 
+  // Find book
+  const findBook = (id) => {
+    const item = books.find((book) => book.id === id);
+
+    setEditItem(item);
+  };
+
+  // Edit book
+  const editBook = (author, title, id) => {
+    const newBooks = books.map((book) =>
+      book.id === id ? { author, title, id } : book
+    );
+
+    setBooks(newBooks);
+    setEditItem(null);
+  };
+
+  //Remove book
   const removeBook = (id) => {
     setBooks(books.filter((book) => book.id !== id));
   };
 
   return (
-    <BookContext.Provider value={{ books, addBook, removeBook }}>
+    <BookContext.Provider
+      value={{ books, addBook, removeBook, editBook, findBook, editItem }}
+    >
       {props.children}
     </BookContext.Provider>
   );

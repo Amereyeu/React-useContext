@@ -1,36 +1,51 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { BookContext } from "../contexts/BookContext";
 
 const NewBookForm = () => {
-  const { addBook } = useContext(BookContext);
-  const [userName, setUserName] = useState("");
-  const [text, setText] = useState("");
+  const { addBook, editBook, editItem } = useContext(BookContext);
+  const [author, setAuthor] = useState("");
+  const [title, setTitle] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-console.log(userName, text);
-    addBook(userName, text);
-    setUserName("");
-    setText("");
+    if (!editItem) {
+      addBook(author, title);
+      setAuthor("");
+      setTitle("");
+    } else {
+      editBook(author, title, editItem.id);
+    }
   };
+
+  useEffect(() => {
+    if (editItem) {
+      setAuthor(editItem.author);
+      setTitle(editItem.title);
+    } else {
+      setAuthor("");
+      setTitle("");
+    }
+  }, [editItem]);
 
   return (
     <form onSubmit={handleSubmit}>
       <input
-        type="text"
-        placeholder="User Name"
+        type="title"
+        placeholder="Author"
         required
-        value={userName}
-        onChange={(e) => setUserName(e.target.value)}
+        value={author}
+        onChange={(e) => setAuthor(e.target.value)}
       />
       <input
-        type="text"
-        placeholder="Text"
+        type="title"
+        placeholder="Book Title"
         required
-        value={text}
-        onChange={(e) => setText(e.target.value)}
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
       />
-      <input type="submit" value="Add" className="button" />
+      <button type="submit" className="button">
+        {editItem ? "Edit Book" : "Add Book"}
+      </button>
     </form>
   );
 };
