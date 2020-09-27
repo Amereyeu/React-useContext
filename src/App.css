@@ -63,3 +63,7 @@ input {
   cursor: pointer;
 }
 
+
+ul {
+  list-style: none;
+}

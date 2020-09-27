@@ -5,27 +5,14 @@ import Faker from "faker";
 export const BookContext = createContext();
 
 const BookContextProvider = (props) => {
-  const createUser = () => {
-    return {
-      author: Faker.internet.userName(),
-      image: Faker.internet.avatar(),
-      title: Faker.lorem.paragraph(),
-      id: uuidv4().slice(0, 5),
-    };
-  };
+  const initialState = JSON.parse(localStorage.getItem("books")) || [];
 
-  const createUsers = (numUsers = 1) => {
-    return Array.from({ length: numUsers }, createUser);
-  };
-
-  let fakeUsers = createUsers(2);
-
-  const [books, setBooks] = useState([]);
+  const [books, setBooks] = useState(initialState);
   const [editItem, setEditItem] = useState(null);
 
   useEffect(() => {
-    setBooks(fakeUsers);
-  }, []);
+    localStorage.setItem("books", JSON.stringify(books));
+  });
 
   //add book
   const addBook = (author, title) => {
@@ -34,7 +21,6 @@ const BookContextProvider = (props) => {
       {
         author,
         title,
-        image: Faker.internet.avatar(),
         id: uuidv4().slice(0, 5),
       },
     ]);
