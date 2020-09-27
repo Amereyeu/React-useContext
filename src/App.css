@@ -59,7 +59,7 @@ input {
   padding: 1rem;
 }
 
-.user, img {
+.user, .id {
   cursor: pointer;
 }
 

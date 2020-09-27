@@ -1,6 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
-import Faker from "faker";
 
 export const BookContext = createContext();
 

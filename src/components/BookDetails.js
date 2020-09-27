@@ -6,9 +6,8 @@ const BookDetails = ({ book }) => {
   return (
     <li>
       <div className="post">
-        <img src={book.image} alt="" onClick={() => removeBook(book.id)} />
         <div>
-          <div className="id">
+          <div className="id" onClick={() => removeBook(book.id)}>
             <small>{book.id}</small>
           </div>
           <div className="user" onClick={() => findBook(book.id)}>
