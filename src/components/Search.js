@@ -1,8 +1,6 @@
 import React, { useContext } from "react";
-//import { BookContext } from "../contexts/BookContext";
 
 const Search = ({ setSearch  }) => {
-  //const { removeBook, findBook } = useContext(BookContext);
 
   return (
     <div className="search">
